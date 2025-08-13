@@ -1,32 +1,22 @@
-FROM ubuntu:20.04
-
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && apt-get install -y \
-    curl \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get install -y nodejs
-
-RUN groupadd --gid 1000 node && \
-    useradd --uid 1000 --gid node --shell /bin/bash --create-home node
-
-RUN npm install -g n8n
+FROM n8nio/n8n:latest
 
 USER root
+
+# Configurar directorio
 RUN mkdir -p /home/node/.n8n && \
     chown -R node:node /home/node/.n8n
 
 USER node
 WORKDIR /home/node
 
+# Variables de entorno críticas para Render
 ENV N8N_PORT=10000
 ENV N8N_HOST=0.0.0.0
+ENV N8N_LISTEN_ADDRESS=0.0.0.0
+ENV N8N_PROTOCOL=http
 ENV NODE_ENV=production
 
 EXPOSE 10000
 
-# Ejecutar n8n sin parámetros
-CMD ["npx", "n8n"]
+# Usar el comando exacto que funciona en la imagen oficial
+CMD ["node", "/usr/local/lib/node_modules/n8n/bin/n8n"]
