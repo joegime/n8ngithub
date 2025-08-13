@@ -28,5 +28,5 @@ ENV NODE_ENV=production
 
 EXPOSE 10000
 
-# Cambiar "start" por solo "n8n" 
-CMD ["n8n"]
+# Ejecutar n8n sin parámetros
+CMD ["npx", "n8n"]
