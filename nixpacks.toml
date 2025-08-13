@@ -1,0 +1,9 @@
+[phases.build]
+dependsOn = ["setup"]
+cmds = ["echo 'Building with Docker'"]
+
+[phases.setup]
+nixPkgs = ["docker"]
+
+[start]
+cmd = "n8n start"
